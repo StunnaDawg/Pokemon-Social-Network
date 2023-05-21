@@ -1,4 +1,9 @@
 const {Schema, model} = require('mongoose');
+const Reactions = require('./Reactions')
+
+function queryDate(date) {
+    return moment(date).format('MMMM Do, YYYY, h:mm a')
+}
 
 const thoughtsSchema = new Schema(
     {
@@ -6,16 +11,36 @@ const thoughtsSchema = new Schema(
             type: String, 
             required: true, 
             minLength: 1, 
-            maxLength: 280
+            maxLength: 280,
         }, 
         createdAt: {
             type: Date, 
-            default: Date.now()
+            default: Date.now, 
+            get: queryDate,
         }, 
         username: {
             type: String, 
-            required: true
+            required: true,
         }, 
-        reactions: [reactionsSchema]
-    }
-)
+        reactions: [
+            {
+                ref: 'reactions',
+            }
+        ]
+    }, 
+    {
+        toJSON: {
+            virtuals: true,
+            getters: true,
+        },
+        id: false,
+      }
+);
+
+      thoughtsSchema.virtaul('reactionsCount').get(function() {
+        return this.reactions.length;
+      });
+
+const Thoughts = model('thoughts', thoughtsSchema);
+
+module.exports = Thoughts;

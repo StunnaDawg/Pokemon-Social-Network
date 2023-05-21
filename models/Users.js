@@ -27,7 +27,12 @@ const usersSchema = new Schema(
     {
         toJSON: {
           virtuals: true,
+          getters: true,
         },
         id: false,
       }
 )
+
+const Users = model('user', usersSchema)
+
+module.exports = Users;
