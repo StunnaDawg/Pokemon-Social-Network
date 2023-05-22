@@ -24,6 +24,7 @@ const thoughtsSchema = new Schema(
         }, 
         reactions: [
             {
+                type: Schema.Types.ObjectId,
                 ref: 'reactions',
             }
         ]
@@ -37,7 +38,7 @@ const thoughtsSchema = new Schema(
       }
 );
 
-      thoughtsSchema.virtaul('reactionsCount').get(function() {
+      thoughtsSchema.virtual('reactionsCount').get(function() {
         return this.reactions.length;
       });
 

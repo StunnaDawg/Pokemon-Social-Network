@@ -1,11 +1,15 @@
 // Schema only
 const {Schema, model} = require('mongoose');
 
+function queryDate(date) {
+    return moment(date).format('MMMM Do, YYYY, h:mm a')
+}
+
 const reactionsSchema = new Schema (
     {
         reactionId: {
             type: Schema.Types.ObjectId, 
-            default: new ObjectId,
+            default: 'new ObjectId',
         }, 
         reactionBody: {
             type: String, 

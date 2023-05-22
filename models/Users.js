@@ -21,7 +21,12 @@ const usersSchema = new Schema(
         validate: [validateEmail, 'Enter a vaild email'],
         match: ['/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/']
        },
-       thoughts: [Thoughts._id],
+       thoughts: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'thoughts'
+       }
+    ],
        friends: [this]
     },
     {
