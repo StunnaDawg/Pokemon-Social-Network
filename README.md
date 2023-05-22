@@ -1,1 +1,1 @@
-# Socila-NetworkAPI
+# Social-NetworkAPI
