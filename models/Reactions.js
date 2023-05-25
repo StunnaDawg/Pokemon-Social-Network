@@ -28,6 +28,4 @@ const reactionsSchema = new Schema (
     }
 )
 
-const Reactions = ('reactions', reactionsSchema)
-
-module.exports = Reactions;
+module.exports = reactionsSchema;
