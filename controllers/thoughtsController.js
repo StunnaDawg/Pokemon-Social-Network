@@ -7,6 +7,7 @@ module.exports = {
         res.json(posts);
       } catch (err) {
         res.status(500).json(err);
+        console.info(err)
       }
     }, 
     async getSingleThought(req, res) {

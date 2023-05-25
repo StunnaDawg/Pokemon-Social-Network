@@ -1,5 +1,7 @@
 const {Schema, model} = require('mongoose');
-const Reactions = require('./Reactions')
+const Reactions = require('./Reactions');
+const { text } = require('express');
+const moment = require('moment')
 
 function queryDate(date) {
     return moment(date).format('MMMM Do, YYYY, h:mm a')
@@ -25,7 +27,7 @@ const thoughtsSchema = new Schema(
         reactions: [
             {
                 type: Schema.Types.ObjectId,
-                ref: 'reactions',
+                ref: 'reactions'
             }
         ]
     }, 
@@ -38,9 +40,9 @@ const thoughtsSchema = new Schema(
       }
 );
 
-      thoughtsSchema.virtual('reactionsCount').get(function() {
-        return this.reactions.length;
-      });
+     thoughtsSchema.virtual('reactionsCount').get(function() {
+      return this.reactions
+           });
 
 const Thoughts = model('thoughts', thoughtsSchema);
 

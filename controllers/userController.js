@@ -3,15 +3,16 @@ const Users = require('../models/Users');
 module.exports = {
     async getUsers(req, res) {
       try {
-        const users = await User.find();
+        const users = await Users.find();
         res.json(users);
       } catch (err) {
         res.status(500).json(err);
+        console.info(err)
       }
     }, 
     async getSingleUser(req, res) {
         try {
-          const user = await User.findOne({ _id: req.params.userId })
+          const user = await Users.findOne({ _id: req.params.userId })
             .select('-__v')
             .populate('thoughts');
     
@@ -26,7 +27,7 @@ module.exports = {
       },
       async createUser(req, res) {
         try {
-          const dbUserData = await User.create(req.body);
+          const dbUserData = await Users.create(req.body);
           res.json(dbUserData);
         } catch (err) {
           res.status(500).json(err);
