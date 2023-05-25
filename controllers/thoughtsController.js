@@ -1,4 +1,5 @@
 const { Thoughts, User } = require("../models");
+const reactionsSchema = require("../models/Reactions");
 
 module.exports = {
     async getThoughts(req, res) {
@@ -71,21 +72,40 @@ module.exports = {
             const { thoughtId } = req.params;
     
             // Make sure the friendId is valid
-            const friend = await Thoughts.findById(thoughtId);
-            if (!friend) {
+            const verifyThought = await Thoughts.findById(thoughtId);
+            if (!verifyThought) {
                 return res.status(404).json({ message: 'No user found with this friendId' });
             }
     
-            const newReaction = new Reactions(req.body);
 
             // Then find the user with the given userId and add friendId to their friends array
             const reaction = await Thoughts.findByIdAndUpdate(
                 thoughtId,
-                { $addToSet: { reactions: newReaction} },
+                { $addToSet: { reactions: req.body } },
                 { new: true, runValidators: true }
             );
     
             res.json(reaction);
+        } catch (err) {
+            console.log(err);
+            res.status(500).json({ error: err.message });
+        }
+    },
+    async deleteReaction(req, res) {
+        try {
+            const { thoughtId, reactionId } = req.params;
+
+        const verifyThought = await Thoughts.findById(thoughtId);
+        if (!verifyThought) {
+            return res.status(404).json({ message: 'No thought found with this id' });
+        }
+        const thoughtReaction = await Thoughts.findByIdAndUpdate(
+            thoughtId,
+            { $pull: { reactions: { _id: reactionId }} },
+            { new: true, runValidators: true }
+        );
+    
+            res.json(thoughtReaction);
         } catch (err) {
             console.log(err);
             res.status(500).json({ error: err.message });
