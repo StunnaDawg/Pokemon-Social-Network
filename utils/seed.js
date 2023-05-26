@@ -20,12 +20,12 @@ connection.once('open', async () => {
     let username = getRandomUsername();
     let email = getRandomEmail();
   
-  // Ensure unique usernames
+  // Ensure the username is unique 
     while (userSet.has(username)) {
         username = getRandomUsername();
     }
 
-  // Ensure unique emails
+  // Ensure the email is unqie
     while (emailSet.has(email)) {
         email = getRandomEmail();
     }
@@ -42,7 +42,6 @@ connection.once('open', async () => {
     await User.collection.insertMany(users);
     await Thoughts.collection.insertMany(thoughts);
   
-    // loop through the saved applications, for each application we need to generate a application response and insert the application responses
     console.table(users);
     console.table(thoughts);
     console.info('Seeding complete! 🌱');

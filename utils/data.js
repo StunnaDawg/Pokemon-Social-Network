@@ -1,5 +1,5 @@
-const { Thoughts } = require("../models");
 
+//dummy ai generated usernames, reactions, and emails
 const usernames = [
     "PikachuMaster",
     "CharizardFan",
@@ -130,7 +130,8 @@ const usernames = [
     "Your Pokemon are lucky to have you!",
   ];
 
-  const getRandomArrItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
+  //picks a random item for the given list
+const getRandomArrItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
 const getRandomUsername = () =>
   `${getRandomArrItem(usernames)}`;
@@ -162,5 +163,5 @@ const getThoughtsReaction = (int) => {
   return results;
 };
 
-// Export the functions for use in seed.js
+// Functions to be used in the seed.js
 module.exports = { getRandomUsername, getRandomThought, getRandomEmail };

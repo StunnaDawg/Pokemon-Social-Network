@@ -1,6 +1,7 @@
 const {Schema, model} = require('mongoose');
 const Thoughts = require('./Thoughts')
 
+//regex function used to validate the email added by the user
 function validateEmail(email) {
     let regex = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
     return regex.test(email)

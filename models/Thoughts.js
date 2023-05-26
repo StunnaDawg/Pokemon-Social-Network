@@ -1,8 +1,8 @@
 const {Schema, model} = require('mongoose');
 const reactionsSchema = require('./Reactions');
-const { text } = require('express');
 const moment = require('moment')
 
+//query to format the data using moment
 function queryDate(date) {
     return moment(date).format('MMMM Do, YYYY, h:mm a')
 }

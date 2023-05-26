@@ -1,6 +1,6 @@
 const { Thoughts, User } = require("../models");
-const reactionsSchema = require("../models/Reactions");
 
+// api routes functions to do the right actions
 module.exports = {
     async getThoughts(req, res) {
       try {
@@ -30,6 +30,7 @@ module.exports = {
           const thought = await Thoughts.create(req.body);
           const user = await User.findOneAndUpdate(
             { username: req.body.username },
+            //addtoset pushes the thought id to the array in the users model
             { $addToSet: { thoughts: thought._id } },
             { new: true }
           );
@@ -46,6 +47,7 @@ module.exports = {
           res.status(500).json(err);
         }
       },
+      // the ability to update a thought
       async updateThought(req, res) {
         try {
             const findThoughtUpdate = await Thoughts.findByIdAndUpdate(
@@ -71,14 +73,14 @@ module.exports = {
         try {
             const { thoughtId } = req.params;
     
-            // Make sure the friendId is valid
+            // makes sure thought is found first
             const verifyThought = await Thoughts.findById(thoughtId);
             if (!verifyThought) {
                 return res.status(404).json({ message: 'No user found with this friendId' });
             }
     
 
-            // Then find the user with the given userId and add friendId to their friends array
+            // then find and update it with the reaction
             const reaction = await Thoughts.findByIdAndUpdate(
                 thoughtId,
                 { $addToSet: { reactions: req.body } },
@@ -101,6 +103,7 @@ module.exports = {
         }
         const thoughtReaction = await Thoughts.findByIdAndUpdate(
             thoughtId,
+            // pull is the opposite of addtoset, removes id from array
             { $pull: { reactions: { _id: reactionId }} },
             { new: true, runValidators: true }
         );

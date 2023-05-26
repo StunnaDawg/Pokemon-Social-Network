@@ -5,6 +5,7 @@ module.exports = {
       try {
         const users = await Users.find()
         .select('-__v')
+        // populate, populates the users with the subdocument items
         .populate('thoughts')
         .populate('friends');
         res.json(users);
@@ -50,6 +51,7 @@ module.exports = {
         try {
             const findUserUpdate = await Users.findByIdAndUpdate(
                 req.params.userId,
+                //update the users username
                 {username: req.body.username},
                 );
             res.json(findUserUpdate)
@@ -62,13 +64,13 @@ module.exports = {
         try {
             const { userId, friendId } = req.params;
     
-            // Make sure the friendId is valid
+            // Makes sure the friendId is valid
             const friend = await Users.findById(friendId);
             if (!friend) {
                 return res.status(404).json({ message: 'No user found with this friendId' });
             }
     
-            // Then find the user with the given userId and add friendId to their friends array
+            // Then we find the user with the given userId and add friendId to their friends array
             const user = await Users.findByIdAndUpdate(
                 userId,
                 { $addToSet: { friends: friendId } },
@@ -89,13 +91,11 @@ module.exports = {
         try {
             const { userId, friendId } = req.params;
     
-            // Make sure the friendId is valid
             const friend = await Users.findById(friendId);
             if (!friend) {
                 return res.status(404).json({ message: 'No user found with this friendId' });
             }
     
-            // Then find the user with the given userId and add friendId to their friends array
             const user = await Users.findByIdAndUpdate(
                 userId,
                 { $pull: { friends: friendId } },
